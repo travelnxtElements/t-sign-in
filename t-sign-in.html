@@ -1,0 +1,61 @@
+<link rel="import" href="../polymer/polymer.html" />
+<link rel="import" href="../t-input/t-input.html" />
+<link rel="import" href="../t-input/t-password-input.html" />
+<link rel="import" href="../t-button/t-button.html">
+
+<dom-module id="t-sign-in">
+	<template>
+		<style type="text/css">
+
+		</style>
+		<t-input id="username"  value="{{username}}" label="Username" required type$="password"></t-input>
+		<t-input id="password"  value="{{password}}" label="Password" required></t-input>
+		<a href="javascript:void(0)" click="_fgtPwdClick">Forgot your password</a>
+		<t-button id="search" class="primary flex" noink label="Search Hotels" on-click="_initiateSearch"></t-button>
+		If you are a new user, <a href="javascript:void(0)" click="_signUpClick">sign up</a> here.
+	</template>
+</dom-module>
+
+<script>
+	Polymer({
+		is: "t-sign-in",
+
+		properties:{
+			username: String,
+
+			password: String
+		},
+
+		attached: function(){
+
+		},
+
+		login: function(){
+			if(validate()){
+				this.fire('t-sing-in-login', {username: this.username, password: this.password});
+			}
+		},
+
+		validate: function(){
+			return this.$.username.validate() && this.$.password.validate();
+		},
+
+		apiSuccess: function(){
+
+		},
+
+		apiError: function(){
+
+		},
+
+
+		_fgtPwdClick: function(){
+			alert('_fgtPwdClick');
+		},
+
+		_signUpClick: function(){
+			alert('_signUpClick');
+		}
+
+	});	
+</script>

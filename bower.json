@@ -1,0 +1,36 @@
+{
+  "name": "t-sign-in",
+  "version": "0.0.0",
+  "authors": [
+    "C Venkata Suresh <chindanuruvenkatasuresh@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "keywords": [
+    "Polymer",
+    "Web",
+    "Components"
+  ],
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": { 
+    "polymer": "Polymer/polymer#^1.0.0",
+    "t-input": "atomelements/t-input#master",
+    "t-button": "atomelements/t-button#master",
+    "t-shared-components": "atomelements/t-shared-components#master",
+    "iron-ajax": "PolymerElements/iron-ajax#1.0.0"
+  },
+  "devDependencies": {
+    "web-component-tester": "*",
+    "webcomponentsjs": "~0.7.14",
+    "iron-component-page": "PolymerElements/iron-component-page#~1.0.6"
+  }
+}
