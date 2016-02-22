@@ -1,6 +1,6 @@
-<link rel="import" href="../polymer/polymer.html" />
+_<liLrel="import" href="../polymer/polym(html)" >
 <link rel="import" href="../iron-ajax/iron-ajax.html">
-<link rel="import" href="../t-shared-components/t-provider-behavior.html">
+<link rel="import" href="../t-shared-lib/t-provider-behavior.html">
 
 <dom-module id="t-sign-in-api">
 	<template>
@@ -19,41 +19,121 @@
 
 		behaviors: [TravelNxt.Behaviors.ProviderBehavior],
 
+		properties:{
+			/*
+			Username
+			 */
+			username: String,
+
+			/*
+			Password
+			 */
+			password: String,
+		},
+
 	    listeners: {
 	        'ajaxCall.response': '_successCallback',
 	        'ajaxCall.error': '_errorCallback'
 	    },
 
-	    login: function(data){
+	    /*
+	    Authenticates user with given username and password
+	     */
+	    authenticate: function(){	  
 	    	//validate API meta before making a call
 	    	if(this._validateApiMeta()){
 		    	var request = {
 							"UserCredentials": {
-								"UserName": data.username,
-								"Password": data.password
+								"UserName": this.username,
+								"Password": this.password
 							}
 						};
+				this.$.ajaxCall.url = this._getUrl();
 				this.$.ajaxCall.body = request;
+				this._setLoading(true);
 				this.$.ajaxCall.generateRequest();
 			}
 	    },
 
-	    _successCallback: function(event){
-	        if(!event.detail.response || !event.detail.response.status || event.detail.response.status.code == 500)
-	            this.fire('t-sign-in-api-error', { message: 'Operation error occured, please try again.', code: 500}, { bubbles: true });
-	        else if(!event.detail.response.status.isSuccessful){
-	            this.fire('t-sign-in-api-error', event.detail.response.status, {bubbles: true});
-	        }
-	        else{
-	        	//do special handling as per api status codes
-	            this.fire('t-sign-in-api-success', event.detail.response, { bubbles: true});
-	        }
+	    /*
+	    Callback for t-sign-in-authenticate event from UI component
+	     */
+	    onAuthenticate: function(e){
+	    	this.username = e.detail.username;
+	    	this.password = e.detail.password;
+	    	this.authenticate();
 	    },
 
-	    _errorCallback: function(event){
-	        this.fire('t-sign-in-api-error', { message: 'Connection error occured, please try again.', code: event.request.status }, { bubbles: true });
-	        console.error('t-sign-in-api-error', event);
+
+	    /*
+	    Callback for authenticate iron ajax success evnt
+	     */
+	    _successCallback: function(event){
+	    	//mystique authenticate api error code
+	    	var operationErrors = [316000, 500];
+	    	var invalidCredErrors = [316200, 316300, 316800, 316900];
+	    	var miscErros = [316407, 316405, 316403];
+
+	    	var error = null;
+	    	var success = null;
+
+	        if(!event.detail.response || !event.detail.response.status || (!event.detail.response.status.isSuccessful && operationErrors.indexOf(event.detail.response.status.code)!= -1) ){	        	
+	        	error = { message: 'Operation error occured, please try again.', code: 500};
+	        	this.fire('t-sign-in-api-authenticate-error', error, { bubbles: true });	        
+	        }
+	        else if(!event.detail.response.status.isSuccessful && invalidCredErrors.indexOf(event.detail.response.status.code)!= -1 ){
+	        	error ={ message: 'Invalid credentials, please try again.', code: event.detail.response.status.code};
+	            this.fire('t-sign-in-api-authenticate-error', error, { bubbles: true });	     
+	        }
+	        else if(!event.detail.response.status.isSuccessful && miscErros.indexOf(event.detail.response.status.code)!= -1 ){
+	        	error = { message: event.detail.response.status.message, code: event.detail.response.status.code}
+	            this.fire('t-sign-in-api-authenticate-error', error, { bubbles: true });	     
+	        }
+	        else{	     
+	        	success = event.detail.response;
+	            this.fire('t-sign-in-api-authenticate-success', {authenticationToken: event.detail.response.authenticationToken}, { bubbles: true});
+	        }
+
+	        if(error)
+	        	this._setLastError(error);
+	        else if(success)
+	        	this._setLastResponse(success);
+
+	        this._setLoading(false);
 	    },
+
+
+	    /*
+	    Callback for authenticate iron ajax success evnt
+	     */
+	    _errorCallback: function(event){	    	
+	    	var error ={ message: 'Connection error occured, please try again.', code: event.detail.request.status };
+	    	this._setLastError(error);
+	        this._setLoading(false);
+
+	        this.fire('t-sign-in-api-authenticate-error', error, { bubbles: true });
+	        console.error('t-sign-in-api-authenticate-error', event);
+	    },
+
+	    /**
+		* Fired when authentication API succeeds
+		*
+		* @event t-sign-in-api-authenticate-success
+		* @param {{authenticationToken: string}}
+		* @param authenticationToken 
+		*/
+	
+		/**
+		* Fired when authentication API fails
+		*
+		* @event t-sign-in-api-authenticate-error
+		* @param {{message:string, code: string}} detail -
+     	* Invalid credentials error codes - 316200, 316800, 316900
+     	* Operation error codes - 316000, 500
+     	* Misc error codes - 316407(Password cannot be same as previous 3 passwords), 316405(Password has expired. Please set a new password), 316403(Account locked due to wrong password attempts. Contact administrator or return after some time)
+     	* Incase network error, brower error code and message will be set in it
+     	* In all these cases 'lastError' field will be updated with proper message and error code
+		*/
 
 	});	
 </script>

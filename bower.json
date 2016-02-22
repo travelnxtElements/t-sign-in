@@ -25,8 +25,9 @@
     "polymer": "Polymer/polymer#^1.0.0",
     "t-input": "atomelements/t-input#master",
     "t-button": "atomelements/t-button#master",
-    "t-shared-components": "atomelements/t-shared-components#master",
-    "iron-ajax": "PolymerElements/iron-ajax#1.0.0"
+    "t-shared-lib": "travelnxtelements/t-shared-lib#master",
+    "iron-ajax": "PolymerElements/iron-ajax#1.0.0",
+    "t-mystique-auth": "travelnxtelements/t-mystique-auth#master"
   },
   "devDependencies": {
     "web-component-tester": "*",
