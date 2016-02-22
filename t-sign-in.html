@@ -1,19 +1,29 @@
 <link rel="import" href="../polymer/polymer.html" />
 <link rel="import" href="../t-input/t-input.html" />
 <link rel="import" href="../t-button/t-button.html">
+<link rel="import" href="../t-text-container/travel-element-styles.html">
 
 <dom-module id="t-sign-in">
 	<template>
-		<style type="text/css">
+		<style include="travel-element-styles">
+        :host {
+            font-family: var(--primary-font-family, 'Open sans');
+            font-size: var(--font-12, 12px);
+            }
+        :host,
+        #login,
+        #forgotPassword{
+            display: block;
+        }
 		</style>
 		<template is="dom-if" if="{{_error}}">
 			{{_error}}
 		</template>
-		<t-input id="username"  value="{{username}}" label="Username" required ></t-input>
-		<t-input id="password"  value="{{password}}" label="Password" required type="password"></t-input>
-		<a href="javascript:void(0)" on-click="_fgtPwdClick">Forgot your password</a>
-		<t-button id="login" class="primary flex" noink label="Login" on-click="authenticate"></t-button>
-		If you are a new user, <a href="javascript:void(0)" on-click="_signUpClick">sign up</a> here.
+		<t-input  class="margin-bottom-medium" id="username"  value="{{username}}" label="Username" required ></t-input>
+		<t-input  class="margin-bottom" id="password"  value="{{password}}" label="Password"  type="password" error-message=" " required></t-input>
+		<a href="javascript:void(0)" id="forgotPassword" on-click="_fgtPwdClick" class="link-style margin-bottom-medium">Forgot your password</a>
+		<t-button id="login" class="primary block margin-bottom" noink label="Login" on-click="authenticate"></t-button>
+		<div class="secondary-text">If you are a new user, <a href="javascript:void(0)" on-click="_signUpClick" class="link-style" >sign up</a> here.</div>
 	</template>
 </dom-module>
 

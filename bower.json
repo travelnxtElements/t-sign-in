@@ -26,6 +26,7 @@
     "t-input": "atomelements/t-input#master",
     "t-button": "atomelements/t-button#master",
     "t-shared-lib": "travelnxtelements/t-shared-lib#master",
+    "t-text-container": "travelnxtelements/t-text-container#master",
     "iron-ajax": "PolymerElements/iron-ajax#1.0.0",
     "t-mystique-auth": "travelnxtelements/t-mystique-auth#master"
   },
