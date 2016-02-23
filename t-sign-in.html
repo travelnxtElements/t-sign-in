@@ -2,6 +2,8 @@
 <link rel="import" href="../t-input/t-input.html" />
 <link rel="import" href="../t-button/t-button.html">
 <link rel="import" href="../t-text-container/travel-element-styles.html">
+<link rel="import" href="../t-notify/t-notify.html">
+
 <dom-module id="t-sign-in">
     <template>
         <style include="travel-element-styles">
@@ -16,9 +18,7 @@
             display: block;
         }
         </style>
-        <template is="dom-if" if="{{_error}}">
-            {{_error}}
-        </template>
+		<t-notify id="notify" message="" type="error"></t-notify>
         <div class="section">
             <t-input class="margin-bottom-medium" id="username" value="{{username}}" label="Username" required></t-input>
             <t-input class="margin-bottom" id="password" value="{{password}}" label="Password" type="password" error-message=" " required></t-input>
@@ -43,10 +43,6 @@ Polymer({
          */
         password: String,
 
-        /*
-        Error message from API
-         */
-        _error: String
     },
 
     attached: function() {
@@ -80,14 +76,15 @@ Polymer({
     Callback for api component success event handler
      */
     onAuthenticateSuccess: function(e) {
-        this._error = null;
+			this.$.notify.active = false;
     },
 
     /*
     Callback for api component error event handler
      */
     onAuthenticateError: function(e) {
-        this._error = e.detail.message;
+			this.$.notify.active = true;
+			this.$.notify.message = e.detail.message;
         this.$.login.label = "Login";
     },
 
