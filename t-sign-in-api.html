@@ -49,7 +49,7 @@ _<liLrel="import" href="../polymer/polym(html)" >
 							}
 						};
 				this.$.ajaxCall.url = this._getUrl();
-				this.$.ajaxCall.body = request;
+				this.$.ajaxCall.body = JSON.stringify(request);
 				this._setLoading(true);
 				this.$.ajaxCall.generateRequest();
 			}
@@ -70,9 +70,15 @@ _<liLrel="import" href="../polymer/polym(html)" >
 	     */
 	    _successCallback: function(event){
 	    	//mystique authenticate api error code
-	    	var operationErrors = [316000, 500];
-	    	var invalidCredErrors = [316200, 316300, 316800, 316900];
-	    	var miscErros = [316407, 316405, 316403];
+	    	var operationErrors = [316000, //Error occurred while processing the user request.
+	    						  500];
+	    	var invalidCredErrors = [316200, //Invalid Username
+	    							316300,  //Logged in user not found.
+	    							316800,  //Unable to retrieve particular user or user was not found in the system.
+	    							316900]; //User authentication has failed.
+	    	var miscErros = [316407,  //Password cannot be same as previous 3 passwords.
+	    					 316405  //Password has expired. Please set a new password.
+	    					 316403]; //Account locked due to wrong password attempts. Contact administrator or return after some time
 
 	    	var error = null;
 	    	var success = null;

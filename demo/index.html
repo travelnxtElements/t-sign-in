@@ -28,7 +28,7 @@
     window.addEventListener('WebComponentsReady', function(e) {
   		var template = document.getElementById('domBindTemplate');
 
-  		template.$.loginView.addEventListener('t-sign-in-authenticate', template.$.loginApi.authenticate.bind(template.$.loginApi));
+  		template.$.loginView.addEventListener('t-sign-in-authenticate', template.$.loginApi.onAuthenticate.bind(template.$.loginApi));
   		template.$.loginApi.addEventListener('t-sign-in-api-authenticate-success', template.$.loginView.onAuthenticateSuccess.bind(template.$.loginView));
   		template.$.loginApi.addEventListener('t-sign-in-api-authenticate-error', template.$.loginView.onAuthenticateError.bind(template.$.loginView));
 
