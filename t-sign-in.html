@@ -59,7 +59,8 @@ Polymer({
                 username: this.username,
                 password: this.password
             });
-            this.$.login.label = "Logging in...";
+            this.$.login.label = "Signing in...";
+            this.$.login.disabled = true;
         }
     },
 
@@ -85,7 +86,7 @@ Polymer({
     onAuthenticateError: function(e) {
 			this.$.notify.active = true;
 			this.$.notify.message = e.detail.message;
-        this.$.login.label = "Login";
+        this.$.login.label = "Sign In";
     },
 
     /*
