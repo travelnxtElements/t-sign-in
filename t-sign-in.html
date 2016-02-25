@@ -3,7 +3,6 @@
 <link rel="import" href="../t-button/t-button.html">
 <link rel="import" href="../t-text-container/travel-element-styles.html">
 <link rel="import" href="../t-notify/t-notify.html">
-
 <dom-module id="t-sign-in">
     <template>
         <style include="travel-element-styles">
@@ -18,7 +17,7 @@
             display: block;
         }
         </style>
-		<t-notify id="notify" message="" type="error"></t-notify>
+        <t-notify id="notify" message="" type="error"></t-notify>
         <div class="section">
             <t-input class="margin-bottom-medium" id="username" value="{{username}}" label="Username" required></t-input>
             <t-input class="margin-bottom" id="password" value="{{password}}" label="Password" type="password" error-message=" " required></t-input>
@@ -54,7 +53,7 @@ Polymer({
     API component should listen to this event and authenticate user.
      */
     authenticate: function() {
-        if (this.validate()) {
+        if (this.validate() && !this.$.login.disabled) {
             this.fire('t-sign-in-authenticate', {
                 username: this.username,
                 password: this.password
@@ -77,15 +76,15 @@ Polymer({
     Callback for api component success event handler
      */
     onAuthenticateSuccess: function(e) {
-			this.$.notify.active = false;
+        this.$.notify.active = false;
     },
 
     /*
     Callback for api component error event handler
      */
     onAuthenticateError: function(e) {
-		this.$.notify.active = true;
-		this.$.notify.message = e.detail.message;
+        this.$.notify.active = true;
+        this.$.notify.message = e.detail.message;
         this.$.login.label = "Sign In";
         this.$.login.disabled = false;
     },
