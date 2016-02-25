@@ -21,9 +21,9 @@
         <div class="section">
             <t-input class="margin-bottom-medium" id="username" value="{{username}}" label="Username" required></t-input>
             <t-input class="margin-bottom" id="password" value="{{password}}" label="Password" type="password" error-message=" " required></t-input>
-            <a href="javascript:void(0)" id="forgotPassword" on-click="_fgtPwdClick" class="link-style margin-bottom-medium">Forgot your password</a>
+            <a href="javascript:void(0)" id="forgotPassword" on-click="_fgtPwdClick" class="link-style margin-bottom-medium">Forgot your password?</a>
             <t-button id="login" class="primary block margin-bottom" noink label="Sign In" on-click="authenticate"></t-button>
-            <div class="secondary-text">If you are a new user, <a href="javascript:void(0)" on-click="_signUpClick" class="link-style">sign up</a> here.</div>
+            <div class="secondary-text">Don't have an account yet? <a href="javascript:void(0)" on-click="_signUpClick" class="link-style">Sign up</a></div>
         </div>
     </template>
 </dom-module>
