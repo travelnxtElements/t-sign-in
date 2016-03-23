@@ -1,6 +1,6 @@
 {
   "name": "t-sign-in",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "authors": [
     "C Venkata Suresh <chindanuruvenkatasuresh@gmail.com>"
   ],
@@ -21,7 +21,7 @@
     "test",
     "tests"
   ],
-  "dependencies": { 
+  "dependencies": {
     "polymer": "Polymer/polymer#^1.0.0",
     "t-input": "atomelements/t-input#master",
     "t-button": "atomelements/t-button#master",
